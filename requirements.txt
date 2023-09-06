@@ -1,0 +1,6 @@
+numpy
+flask
+tensorflow==2.8.3
+scikit-learn
+Pillow
+scikit-image

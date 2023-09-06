@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>🍄 MyShroom Classifier</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"> 
+</head>
+
+<body>
+    <div class="grid">
+        <div class="box">
+            <p>Load the image of 🍄 mushroom to get its species</p>
+
+            <form action="{{ url_for('predict')}}" method="post" enctype="multipart/form-data">
+                <input type="file" name="file"/>
+                <input type="submit" value="Upload the image of mushroon"/>
+            </form>
+
+            <div id="output-for-predictions"></div>
+            <img id="resized-image" src="" alt="Your image will be here!"/>
+        </div>
+    </div>
+    <script>
+        try
+        {
+            let results = JSON.parse('{{ results | tojson }}');
+            document.getElementById('resized-image').src = 'data:image/jpg;base64, ' + results['image'];
+
+            let output = '';
+            for (let i = 0; i < results['predictions'].length; i++) 
+            {
+                let prediction = results['predictions'][i];
+                let roundedProbability = Math.round((prediction[1] + Number.EPSILON) * 100) / 100;
+                output += '<li>' + 'Model #' + (i + 1) + ': ' + prediction[0] + ' (' + roundedProbability + '%)' + '</li>';
+            }
+            
+            document.getElementById('output-for-predictions').innerHTML = '<ul>' + output + '</ul>';
+        }
+        catch (ex)
+        {
+            console.log('Error: ' + ex);
+            document.getElementById('output-for-predictions').innerHTML = '';
+            document.getElementById('resized-image').src = '';
+        }
+    </script>
+</body>
+</html>
