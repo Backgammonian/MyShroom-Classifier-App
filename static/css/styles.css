@@ -22,6 +22,7 @@ input
 	display: grid;
 	justify-content: center;
 	margin: 20px auto;
+	grid-template-columns: 1fr 300px;
 }
 
 .box 
@@ -30,4 +31,11 @@ input
 	background: #2d2d2d;
 	padding: 12px;
 	display: inline-block;
+	font-size: 24px;
+}
+
+.memo-box
+{
+	font-size: 14px;
+	text-align: left;
 }

@@ -29,9 +29,14 @@ def load_models_from_paths(paths):
     optimizer = 'adam'
     metrics = ['accurary']
     models = []
+    model_names = []
     for path in paths:
+        _, extension = os.path.splitext(path)
+        if (extension != '.keras'):
+            continue
         models.append(load_model(path, loss, optimizer, metrics))
-    return models
+        model_names.append(os.path.splitext(os.path.basename(path))[0])
+    return models, model_names
 
 def get_image(image_path, image_width, image_height, num_channels):
     image = Image.open(image_path)
@@ -74,13 +79,13 @@ encoder.fit(labels)
 model_paths = os.listdir(MODELS_FOLDER)
 for i in range (len(model_paths)):
     model_paths[i] = MODELS_FOLDER + model_paths[i]
-models = load_models_from_paths(model_paths)
+models, model_names = load_models_from_paths(model_paths)
 image_width = 128
 image_height = 128
 image_channels = 3
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = 16 * 2**20
+app.config['MAX_CONTENT_LENGTH'] = 16 * 2**20 # 16 MB
 
 @app.route('/')
 def home():
@@ -117,11 +122,13 @@ def predict():
                     reshaped_image)
                 predictions.append((
                     prediction_label,
-                    probability))
+                    probability,
+                    model_names[i]))
             return render_template(
                 'index.html',
                  results = {'image': encode(resized_image), 'predictions': predictions})
     return render_template('index.html', results = {})
 
 if __name__ == '__main__':
-    app.run(debug = True)
+    # app.run(debug = True)
+    app.run(debug = False, host = '0.0.0.0', port = '7000')
