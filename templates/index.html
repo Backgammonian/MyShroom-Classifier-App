@@ -19,6 +19,20 @@
             <div id="output-for-predictions"></div>
             <img id="resized-image" src="" alt="Your image will be here!"/>
         </div>
+        <div class="box memo-box">
+            <p>Mushrooms memo:</p>
+            <ul>
+                <li>Agaricus - champignon (Шампиньон)</li>
+                <li>Amanita - fly agaric, fly amanita (Мухомор)</li>
+                <li>Boletus (Белый гриб)</li>
+                <li>Cortinarius (Паутинник)</li>
+                <li>Entoloma (Энтолома)</li>
+                <li>Hygrocybe (Гигроцибе)</li>
+                <li>Lactarius - milk-caps (Млечник)</li>
+                <li>Russula (Сыроежка)</li>
+                <li>Suillus (Маслёнок)</li>
+            </ul>
+        </div>
     </div>
     <script>
         try
@@ -30,11 +44,13 @@
             for (let i = 0; i < results['predictions'].length; i++) 
             {
                 let prediction = results['predictions'][i];
+                let predictedLabel = prediction[0];
                 let roundedProbability = Math.round((prediction[1] + Number.EPSILON) * 100) / 100;
-                output += '<li>' + 'Model #' + (i + 1) + ': ' + prediction[0] + ' (' + roundedProbability + '%)' + '</li>';
+                let modelName = prediction[2];
+                output += '<li>' + modelName + ': ' + predictedLabel + ' (' + roundedProbability + '%)' + '</li>';
             }
             
-            document.getElementById('output-for-predictions').innerHTML = '<ul>' + output + '</ul>';
+            document.getElementById('output-for-predictions').innerHTML = '<ul style="text-align: left;">' + output + '</ul>';
         }
         catch (ex)
         {
