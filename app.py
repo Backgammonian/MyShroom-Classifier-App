@@ -85,7 +85,7 @@ image_height = 128
 image_channels = 3
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = 16 * 2**20 # 16 MB
+app.config['MAX_CONTENT_LENGTH'] = 32 * 2**20 # 32 MB
 
 @app.route('/')
 def home():
