@@ -6,7 +6,7 @@ In this project I used the [MyShroomClassifier Image Dataset](https://universe.r
 * CNN (~70% accuracy on test dataset)
 * Transfer learning network, VGG19 (~80% accuracy on test dataset)
 
-To provide the ability for user to pass the images to ANNs and to receive predictions from them Flask web-framework was used.
+To provide the ability for user to pass the images to CNNs and to receive predictions from them Flask web-framework was used.
 
 ## Demonstration:
 ![5](showcase/5.png)
